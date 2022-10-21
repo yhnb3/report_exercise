@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import { IItem } from 'types/data'
 
@@ -14,12 +15,12 @@ const Item = ({ item }: IProps) => {
   }
   return (
     <button type='button' className={styles.container} onClick={handleClick}>
-      <img src={item.images} alt={item.title} />
-      <div>
-        <div>{item.title}</div>
-        <div>{item.description}</div>
-        <div>{item.price}</div>
-        <div>{item.createdAt}</div>
+      <img className={styles.image} src={item.images} alt={item.title} />
+      <div className={styles.infoBox}>
+        <div className={styles.title}>{item.title}</div>
+        <p className={styles.description}>{item.description}</p>
+        <div className={styles.price}>{item.price}</div>
+        <div className={styles.createdAt}>{dayjs(item.createdAt).format('YYYY-MM-DD')}</div>
       </div>
     </button>
   )

@@ -1,17 +1,24 @@
 import { useParams } from 'react-router-dom'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
+import dayjs from 'dayjs'
 import store from 'store'
 
 import { basketState } from 'state'
 import { DATA } from 'constant'
 
 import styles from './detail.module.scss'
+import Toast from './Toast'
+import { useState } from 'react'
 
 const Detail = () => {
   const { id } = useParams()
-  const setBasket = useSetRecoilState(basketState)
+  const [basket, setBasket] = useRecoilState(basketState)
+  const [isToast, setIsToast] = useState(false)
+
   const targetItem = DATA.filter((item) => item.id === Number(id))[0]
   const handleClickBasket = () => {
+    setIsToast(true)
+    if (basket.findIndex((item) => item.id === Number(id)) !== -1) return
     setBasket((prev) => {
       const newBasket = [...prev, { ...targetItem, checked: false }]
       store.set('basket', newBasket)
@@ -34,9 +41,10 @@ const Detail = () => {
               장바구니
             </button>
           </div>
-          <div className={styles.createdAt}>{targetItem.createdAt}</div>
+          <div className={styles.createdAt}>{dayjs(targetItem.createdAt).format('YYYY-MM-DD')}</div>
         </div>
       </div>
+      {isToast && <Toast isToast={isToast} setIsToast={setIsToast} />}
     </article>
   )
 }

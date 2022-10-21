@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { MutableRefObject, useCallback, useEffect } from 'react'
 
 interface IProps {
   target: MutableRefObject<Element | null>
@@ -6,20 +6,21 @@ interface IProps {
 }
 
 export const useInfinityScroll = ({ target, func }: IProps) => {
-  const observer = useRef<IntersectionObserver | null>(null)
+  const callback = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        entry.isIntersecting && func()
+      })
+    },
+    [func]
+  )
+
   useEffect(() => {
-    if (target.current) {
-      observer.current = new IntersectionObserver(
-        (entries, _) => {
-          entries.forEach((entry) => {
-            entry.isIntersecting && func()
-          })
-        },
-        {
-          threshold: 1.0,
-        }
-      )
-      observer.current.observe(target.current)
-    }
-  }, [func, target])
+    if (!target.current) return undefined
+    const observer = new IntersectionObserver(callback, {
+      threshold: 1.0,
+    })
+    observer.observe(target.current)
+    return () => observer.disconnect()
+  }, [target, callback])
 }
