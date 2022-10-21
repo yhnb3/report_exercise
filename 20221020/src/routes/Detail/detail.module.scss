@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 1200px;
+  height: 400px;
+  padding: 40px;
+
+  .image {
+    width: 400px;
+    height: 200px;
+    margin-top: 20px;
+    object-fit: contain;
+  }
+
+  .infoBox {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-left: 30px;
+
+    .title {
+      flex: 1;
+    }
+
+    .description {
+      flex: 2;
+    }
+
+    .price {
+      flex: 1;
+    }
+
+    .bottom {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .buttonBox {
+        .btn {
+          + .btn {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}

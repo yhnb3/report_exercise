@@ -4,7 +4,6 @@ import { DATA } from 'constant'
 
 import styles from './main.module.scss'
 import Item from './Item'
-import { Link } from 'react-router-dom'
 
 const Main = () => {
   const [data, setData] = useState(DATA)

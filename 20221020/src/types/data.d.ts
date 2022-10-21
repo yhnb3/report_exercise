@@ -5,4 +5,5 @@ export interface IItem {
   price: string
   createdAt: string
   images: string
+  checked?: boolean
 }
